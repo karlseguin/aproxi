@@ -1,0 +1,11 @@
+{
+  "author": "Karl Seguin <karl@openmymind.net> (http://openmymind.net/)",
+  "name": "aproxi",
+  "version": "0.0.1",
+  "engines": { "node": ">=v0.6.6" },
+  "dependencies": {
+    "coffee-script": ">= 1.2.0",
+    "connect": ">= 1.8.4",
+    "mongodb": "> 0.9.7-3-5"
+  }
+}
