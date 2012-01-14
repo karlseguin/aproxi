@@ -1,7 +1,10 @@
 helper = require('./helper')
 Cache = helper.require('./lib/cache')
 
+cache = null
 describe 'cache', ->
+  afterEach -> clearInterval(cache.pruneId)
+
   it "caches the item", ->
     cache = new Cache(10000)
     cache.add('leto', {likes: 'spice'})
@@ -28,3 +31,4 @@ describe 'cache', ->
     cache = new Cache(-1000000)
     cache.add('leto', 999)
     expect(cache.get('leto')).toBeNull()
+    expect(cache.store).toEqual({})

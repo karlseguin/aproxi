@@ -6,7 +6,10 @@ module.exports.middleware = (path) ->
 
 module.exports.store = ->
   store = require('./../lib/store')
-  instance = new store.Store()
+  try
+    instance = new store.Store()  
+  finally
+    clearInterval(instance.appCache.pruneId)
   store.instance = instance
 
 class FakeRequest extends require("events").EventEmitter

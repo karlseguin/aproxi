@@ -7,6 +7,7 @@ idPattern = new RegExp("^[0-9a-fA-F]{24}$")
 class Store
   constructor: (@log, @app) ->
     @appCache = new Cache(30)
+    @appCache.add('test1', {})
 
   getApp: (key, callback) ->
     unless idPattern.test(key)

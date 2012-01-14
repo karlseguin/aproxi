@@ -1,8 +1,11 @@
-## todo run a timer to clear out stale  entries
+
+
 class Cache
-  constructor: (expirationInSeconds) ->
+  constructor: (expirationInSeconds, pruneInSeconds) ->
     @store = {}
     @expiration = expirationInSeconds * 1000
+    pruneInSeconds = 30 unless pruneInSeconds?
+    @pruneId = setInterval(this.prune, pruneInSeconds * 1000)
 
   add: (key, value) ->
     entry = 
@@ -14,9 +17,18 @@ class Cache
 
   get: (key, found) ->
     entry = @store[key]
-    if !entry? || (entry.created + @expiration) < new Date().getTime()
+    return null unless entry?
+
+    if this.isExpired(entry)
+      delete @store[key]
       return null 
+
     return entry.value
 
+  isExpired: (entry) ->
+    (entry.created + @expiration) < new Date().getTime()
+
+  prune: =>
+    delete @store[key] for key of @store when this.isExpired(@store[key])
 
 module.exports = Cache
