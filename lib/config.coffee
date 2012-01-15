@@ -7,8 +7,15 @@ module.exports =
     log:
       port: 27017
       host: '127.0.0.1'
-      database: 'mogade_logs'
+      database: 'little_logs'
     app:
       port: 27017
       host: '127.0.0.1'
-      database: 'mogade'
+      database: 'little'
+  middleware:
+    contextLoader:
+      routePattern: /\/v(\d+)\/(\w+)(\/(\w+))?/
+      captures: 
+        version: 1
+        resource: 2
+        action: 4

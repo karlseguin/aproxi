@@ -22,6 +22,6 @@ proxy = (config) ->
       utils.error(response, 'connection to application server refused', 503)
       
     prequest.write(request.bodyRaw, 'binary') if request.bodyRaw
-    request.on 'end', -> prequest.end()
+    prequest.end()
 
 module.exports = proxy

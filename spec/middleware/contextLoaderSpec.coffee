@@ -1,12 +1,14 @@
 helper = require('../helper')
 Context = helper.require('./lib/context')
 FakeContext = helper.FakeContext
-contextLoader = helper.middleware('./lib/middleware/contextLoader')
+config = {}
+contextLoader = helper.middleware('./lib/middleware/contextLoader', config)
 
 describe 'contextLoader', ->
+  afterEach -> clearInterval(Context.appCache.pruneId)
+  
   it 'returns an error if the context cannot be loaded', ->
-    context = new Context()
-    spyOn(Context, 'fromRequest').andCallFake (r, cb) -> cb(null)
+    spyOn(Context, 'fromRequest').andCallFake (r, c, cb) -> cb(null)
     fake = new FakeContext()
     contextLoader(fake.request, fake.response, null)
     fake.assertError('the key is not valid')
@@ -14,8 +16,9 @@ describe 'contextLoader', ->
   it 'loads the context into the request', ->
     context = new Context()
     fake = new FakeContext()
-    spyOn(Context, 'fromRequest').andCallFake (r, cb) -> 
+    spyOn(Context, 'fromRequest').andCallFake (r, c, cb) -> 
       expect(r).toBe(fake.request)
+      expect(c).toBe(config)
       cb(context)
 
     contextLoader(fake.request, fake.response, fake.pass)

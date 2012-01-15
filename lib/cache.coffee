@@ -1,5 +1,3 @@
-
-
 class Cache
   constructor: (expirationInSeconds, pruneInSeconds) ->
     @store = {}
@@ -7,7 +5,7 @@ class Cache
     pruneInSeconds = 30 unless pruneInSeconds?
     @pruneId = setInterval(this.prune, pruneInSeconds * 1000)
 
-  add: (key, value) ->
+  put: (key, value) ->
     entry = 
       value: value
       created: new Date().getTime()
@@ -17,7 +15,7 @@ class Cache
 
   get: (key, found) ->
     entry = @store[key]
-    return null unless entry?
+    return undefined unless entry?
 
     if this.isExpired(entry)
       delete @store[key]

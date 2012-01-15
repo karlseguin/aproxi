@@ -1,16 +1,18 @@
 module.exports.require = (path) ->
   require('../' + path)
   
-module.exports.middleware = (path) ->
-  new require('../' + path)()
+module.exports.middleware = (path, options) ->
+  new require('../' + path)(options)
 
-module.exports.store = ->
+module.exports.appStore = ->
   store = require('./../lib/store')
-  try
-    instance = new store.Store()  
-  finally
-    clearInterval(instance.appCache.pruneId)
-  store.instance = instance
+  instance = new store.Store()
+  store.appStore = instance
+
+module.exports.logStore = ->
+  store = require('./../lib/store')
+  instance = new store.Store()
+  store.logStore = instance
 
 class FakeRequest extends require("events").EventEmitter
   constructor: (data) ->
