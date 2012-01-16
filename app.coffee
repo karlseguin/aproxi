@@ -10,6 +10,7 @@ store.initialize config.store, (err) ->
     middleware = require('./lib/middleware')
     server = connect()
       .use(middleware.site())
+      .use(middleware.logger())
       .use(middleware.context())
       .use(connect.query())
       .use(middleware.bodyParser())
