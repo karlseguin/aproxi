@@ -21,7 +21,7 @@ appLoader =  ->
       request._aproxi.context.app = app
       return next()
       
-    store.findOne 'apps', {_id: key}, (err, app) =>
+    store.findOne 'apps', {_id: key}, {fields: {_id: false, secret: true}}, (err, app) =>
       return invalid(response) if err?
 
       appCache.put(key, app)

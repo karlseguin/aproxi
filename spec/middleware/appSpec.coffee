@@ -20,7 +20,7 @@ describe 'appLoader', ->
     Helper.lodedFromProperKey('PUT', '4efe7c23bb2bfa44c0000004')
 
   it "returns error on load error", ->
-    spyOn(store, 'findOne').andCallFake (name, query, cb) -> cb({}, null)
+    spyOn(store, 'findOne').andCallFake (name, query, options, cb) -> cb({}, null)
     request = {method: 'GET', query:{key: '4efe7c23bb2bfa44c0000004'}}
     fake = new FakeContext(request)
     appLoader(fake.request, fake.response, -> )
@@ -28,7 +28,7 @@ describe 'appLoader', ->
     expect(@cache.get('4efe7c23bb2bfa44c0000004')).toEqual(undefined)
 
   it "returns error if the app isn't found", ->
-    spyOn(store, 'findOne').andCallFake (name, query, cb) -> cb(null, null)
+    spyOn(store, 'findOne').andCallFake (name, query, options, cb) -> cb(null, null)
     request = {method: 'GET', query:{key: '4efe7c23bb2bfa44c0000004'}}
     fake = new FakeContext(request)
     appLoader(fake.request, fake.response, -> )
@@ -37,7 +37,7 @@ describe 'appLoader', ->
       
   it "callsback with the context", ->
     app = {}
-    spyOn(store, 'findOne').andCallFake (name, query, cb) -> cb(null, app)
+    spyOn(store, 'findOne').andCallFake (name, query, options, cb) -> cb(null, app)
     request = {method: 'GET', query:{key: '4efe7c23bb2bfa44c0000005'}, _aproxi: {context: {}}}
     fake = new FakeContext(request)
     appLoader(fake.request, fake.response, fake.pass)
@@ -51,5 +51,6 @@ class Helper
     request = {method: method, query:{key: '4efe7c23bb2bfa44c0000003'}, body:{key: '4efe7c23bb2bfa44c0000004'}}
     fake = new FakeContext(request)
     appLoader(fake.request, fake.response, fake.pass)
-    expect(store.findOne).toHaveBeenCalledWith('apps', jasmine.any(Object), jasmine.any(Function))
+    expect(store.findOne).toHaveBeenCalledWith('apps', jasmine.any(Object), jasmine.any(Object), jasmine.any(Function))
     expect(store.findOne.mostRecentCall.args[1]._id.__id).toEqual(expected) #ughh
+    expect(store.findOne.mostRecentCall.args[2]).toEqual({fields: {_id: false, secret: true}})
