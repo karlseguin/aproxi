@@ -1,8 +1,8 @@
 module.exports.require = (path) ->
   require('../' + path)
   
-module.exports.middleware = (path, options) ->
-  new require('../' + path)(options)
+module.exports.middleware = (path) ->
+  new require('../' + path)()
 
 module.exports.appStore = ->
   store = require('./../lib/store')
@@ -20,8 +20,10 @@ class FakeRequest extends require("events").EventEmitter
       this[d] = data[d]
 
 class FakeContext
-  constructor: (request) ->
+  constructor: (request, config) ->
     @request = new FakeRequest(request || {})
+    @request['_aproxi'] = {config: config} if config?
+    
     @response = 
       writeHead: (code, headers) =>
         @responseCode = code

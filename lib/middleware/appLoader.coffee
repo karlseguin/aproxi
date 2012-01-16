@@ -3,7 +3,7 @@ store = require('./../store').appStore
 Cache = require('./../cache')
 
 appCache = new Cache(30)
-appLoader =  () ->
+appLoader =  ->
   appLoader = (request, response, next) ->
     return next() if request._appLoader
     request._appLoader = true
@@ -18,7 +18,7 @@ appLoader =  () ->
     return invalid(response) if app == null
 
     if app != undefined
-      request._context.app = app
+      request._aproxi.context.app = app
       return next()
       
     store.findOne 'apps', {_id: key}, (err, app) =>
@@ -27,7 +27,7 @@ appLoader =  () ->
       appCache.put(key, app)
       return invalid(response) unless app?
       
-      request._context.app = app
+      request._aproxi.context.app = app
       return next()
 
 invalid = (response) ->

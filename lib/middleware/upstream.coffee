@@ -1,11 +1,12 @@
 http = require('http')
 utils = require('./utils')
 
-upstream =  ->
-  upstream = (request, response, next) ->
+proxy = ->
+  proxy = (request, response, next) ->
     return next() if request._proxy
     request._proxy = true
 
+    config = request._aproxi.config.upstream
     options = 
       port: config.port
       host: config.host
@@ -24,4 +25,4 @@ upstream =  ->
     prequest.write(request.bodyRaw, 'binary') if request.bodyRaw
     prequest.end()
 
-module.exports = upstream
+module.exports = proxy

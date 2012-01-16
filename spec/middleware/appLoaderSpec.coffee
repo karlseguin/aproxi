@@ -38,12 +38,12 @@ describe 'appLoader', ->
   it "callsback with the context", ->
     app = {}
     spyOn(store, 'findOne').andCallFake (name, query, cb) -> cb(null, app)
-    request = {method: 'GET', query:{key: '4efe7c23bb2bfa44c0000005'}, _context: {}}
+    request = {method: 'GET', query:{key: '4efe7c23bb2bfa44c0000005'}, _aproxi: {context: {}}}
     fake = new FakeContext(request)
     appLoader(fake.request, fake.response, fake.pass)
     fake.assertNext()
     expect(@cache.get('4efe7c23bb2bfa44c0000005')).toBe(app)
-    expect(request._context.app).toBe(app)
+    expect(request._aproxi.context.app).toBe(app)
     
 class Helper
   @lodedFromProperKey: (method, expected) ->
