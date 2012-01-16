@@ -1,6 +1,6 @@
 module.exports = 
-  siteLoader: require('./middleware/siteLoader')
-  contextLoader: require('./middleware/contextLoader')
-  appLoader: require('./middleware/appLoader')
+  site: require('./middleware/site')
+  context: require('./middleware/context')
+  app: require('./middleware/app')
   bodyParser: require('./middleware/bodyParser')
   upstream: require('./middleware/upstream')

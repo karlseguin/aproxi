@@ -9,11 +9,11 @@ store.initialize config.store, (err) ->
   else
     middleware = require('./lib/middleware')
     server = connect()
-      .use(middleware.siteLoader())
-      .use(middleware.contextLoader())
+      .use(middleware.site())
+      .use(middleware.context())
       .use(connect.query())
       .use(middleware.bodyParser())
-      .use(middleware.appLoader())
+      .use(middleware.app())
       .use(middleware.upstream())
       .listen(config.port)
     console.log('Server running on port %d', config.port);

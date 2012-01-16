@@ -1,10 +1,10 @@
 helper = require('../helper')
 store = helper.appStore()
 FakeContext = helper.FakeContext
-appLoader = helper.middleware('./lib/middleware/appLoader')
+appLoader = helper.middleware('./lib/middleware/app')
 
 describe 'appLoader', ->
-  beforeEach -> @cache = helper.require('./lib/middleware/appLoader').cache
+  beforeEach -> @cache = helper.require('./lib/middleware/app').cache
   afterEach -> clearInterval(@cache.pruneId)
 
   it "get's they key from the query for a GET request", ->

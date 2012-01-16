@@ -1,6 +1,6 @@
 helper = require('../helper')
 FakeContext = helper.FakeContext
-contextLoader = helper.middleware('./lib/middleware/contextLoader')
+contextLoader = helper.middleware('./lib/middleware/context')
 config = 
     contextLoader: 
         routePattern: /\/v(\d+)\/(\w+)(\/(\w+))?/
