@@ -5,6 +5,10 @@ class Store
   @idPattern: new RegExp("^[0-9a-fA-F]{24}$")
   constructor: (@db) ->
 
+  insert: (name, document, options, callback) ->
+    @db.collection name, (err, collection) ->
+      collection.insert(document, options, callback)
+
   findOne: (name, criteria, options, callback) ->
     unless callback?
       callback = options

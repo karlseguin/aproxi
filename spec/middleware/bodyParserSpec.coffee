@@ -2,7 +2,7 @@ helper = require('../helper')
 FakeContext = helper.FakeContext
 bodyParser = helper.middleware('./lib/middleware/bodyParser')
 
-describe 'bodyParser', ->
+describe 'bodyParser middleware', ->
   it 'should run next on GET request', ->
     fake = new FakeContext({method: 'GET'})
     bodyParser(fake.request, null, fake.pass)

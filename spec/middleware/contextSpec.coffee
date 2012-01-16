@@ -6,7 +6,7 @@ config =
         routePattern: /\/v(\d+)\/(\w+)(\/(\w+))?/
         captures: {version: 1, resource: 2, action: 4}
         
-describe 'contextLoader', ->
+describe 'context middleware', ->
   it "loads the context with a full route info", ->
     request = {method: 'GET', url: '/v3/users/rename'}
     fake = new FakeContext(request, config)

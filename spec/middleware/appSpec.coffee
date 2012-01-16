@@ -3,7 +3,7 @@ store = helper.appStore()
 FakeContext = helper.FakeContext
 appLoader = helper.middleware('./lib/middleware/app')
 
-describe 'appLoader', ->
+describe 'app middleware', ->
   beforeEach -> @cache = helper.require('./lib/middleware/app').cache
   afterEach -> clearInterval(@cache.pruneId)
 
@@ -53,4 +53,4 @@ class Helper
     appLoader(fake.request, fake.response, fake.pass)
     expect(store.findOne).toHaveBeenCalledWith('apps', jasmine.any(Object), jasmine.any(Object), jasmine.any(Function))
     expect(store.findOne.mostRecentCall.args[1]._id.__id).toEqual(expected) #ughh
-    expect(store.findOne.mostRecentCall.args[2]).toEqual({fields: {_id: false, secret: true}})
+    expect(store.findOne.mostRecentCall.args[2]).toEqual({fields: {secret: true}})

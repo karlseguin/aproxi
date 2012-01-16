@@ -57,4 +57,7 @@ class FakeContext
     expect(@responseBody).toEqual(JSON.stringify({error: body}))
     expect(@responseHeaders['Content-Type']).toEqual('application/json')
 
+  assertBody: (body) ->
+    expect(@responseBody).toEqual(body)
+
 module.exports.FakeContext = FakeContext
