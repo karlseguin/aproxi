@@ -3,7 +3,6 @@ FakeContext = helper.FakeContext
 bodyParser = helper.middleware('./lib/middleware/bodyParser')
 
 describe 'bodyParser', ->
-
   it 'should run next on GET request', ->
     fake = new FakeContext({method: 'GET'})
     bodyParser(fake.request, null, fake.pass)

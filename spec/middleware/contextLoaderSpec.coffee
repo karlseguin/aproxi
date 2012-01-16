@@ -1,27 +1,27 @@
 helper = require('../helper')
-Context = helper.require('./lib/context')
 FakeContext = helper.FakeContext
-config = {}
+config = {routePattern: /\/v(\d+)\/(\w+)(\/(\w+))?/, captures: {version: 1, resource: 2, action: 4}}
 contextLoader = helper.middleware('./lib/middleware/contextLoader', config)
 
 describe 'contextLoader', ->
-  afterEach -> clearInterval(Context.appCache.pruneId)
-  
-  it 'returns an error if the context cannot be loaded', ->
-    spyOn(Context, 'fromRequest').andCallFake (r, c, cb) -> cb(null)
-    fake = new FakeContext()
-    contextLoader(fake.request, fake.response, null)
-    fake.assertError('the key is not valid')
+  it "loads the context with a full route info", ->
+    request = {method: 'GET', url: '/v3/users/rename'}
+    fake = new FakeContext(request)
+    contextLoader(fake.request, null, fake.pass)
+    fake.assertNext(1)
+    expect(fake.request._context.version).toEqual('3')
+    expect(fake.request._context.resource).toEqual('users')
+    expect(fake.request._context.action).toEqual('rename')
+    expect(fake.request._context.url).toEqual('/v3/users/rename')
+    expect(fake.request._context.method).toEqual('GET')
 
-  it 'loads the context into the request', ->
-    context = new Context()
-    fake = new FakeContext()
-    spyOn(Context, 'fromRequest').andCallFake (r, c, cb) -> 
-      expect(r).toBe(fake.request)
-      expect(c).toBe(config)
-      cb(context)
-
-    contextLoader(fake.request, fake.response, fake.pass)
-
-    expect(fake.request._context).toBe(context)
-    fake.assertNext()
+  it "loads actionless context ", ->
+    request = {method: 'POST', url: '/v2/scores'}
+    fake = new FakeContext(request)
+    contextLoader(fake.request, null, fake.pass)
+    fake.assertNext(1)
+    expect(fake.request._context.version).toEqual('2')
+    expect(fake.request._context.resource).toEqual('scores')
+    expect(fake.request._context.action).toBeUndefined()
+    expect(fake.request._context.url).toEqual('/v2/scores')
+    expect(fake.request._context.method).toEqual('POST')
