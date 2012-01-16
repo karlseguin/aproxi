@@ -22,8 +22,10 @@ class FakeRequest extends require("events").EventEmitter
 class FakeContext
   constructor: (request, config) ->
     @request = new FakeRequest(request || {})
-    @request['_aproxi'] = {config: config} if config?
-    
+    if config?
+      @request['_aproxi'] = {} unless @request['_aproxi']?
+      @request['_aproxi'].config = config
+
     @response = 
       writeHead: (code, headers) =>
         @responseCode = code

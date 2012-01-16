@@ -6,6 +6,7 @@
   "dependencies": {
     "coffee-script": ">= 1.2.0",
     "connect": ">= 1.8.4",
-    "mongodb": "> 0.9.7-3-5"
+    "mongodb": "> 0.9.7-3-5",
+    "hashlib": "git://github.com/brainfucker/hashlib.git#b9f61ef3d8898d7fd7b36f64ba024c8ab2e39dc7"
   }
 }

@@ -14,6 +14,7 @@ store.initialize config.store, (err) ->
       .use(connect.query())
       .use(middleware.bodyParser())
       .use(middleware.app())
+      .use(middleware.signature())
       .use(middleware.upstream())
       .listen(config.port)
     console.log('Server running on port %d', config.port);
